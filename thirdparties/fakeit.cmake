@@ -3,13 +3,13 @@ message("Making fakeit...")
 find_package(Git REQUIRED)
 
 set(FAKEIT_VER 2.0.4)
-set(FAKEIT_DIR "${DEPENDENCIES_DIR}/Fakeit")
+set(FAKEIT_DIR "${DEPENDENCIES_DIR}/fakeit")
 
 if(EXISTS ${FAKEIT_DIR})
     message("Fakeit is already cloned")
 else()
     file(MAKE_DIRECTORY ${FAKEIT_DIR})
-    execute_process(COMMAND git clone https://github.com/eranpeer/FakeIt
+    execute_process(COMMAND git clone https://github.com/eranpeer/FakeIt ${FAKEIT_DIR}
                     WORKING_DIRECTORY ${DEPENDENCIES_DIR})
     execute_process(COMMAND git checkout ${FAKEIT_VER}
                     WORKING_DIRECTORY ${FAKEIT_DIR})

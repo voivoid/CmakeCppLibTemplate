@@ -33,12 +33,21 @@ else()
 endif()
 
 
+if(MSVC)
+  set(BOOST_BOOTSTRAP_CMD ${BOOST_SRC_DIR}/bootstrap.bat)
+  set(BOOST_B2 ${BOOST_SRC_DIR}/b2.exe)
+else()
+  set(BOOST_BOOTSTRAP_CMD $ENV{SHELL} ${BOOST_SRC_DIR}/bootstrap.sh)
+  set(BOOST_B2 ${BOOST_SRC_DIR}/b2)
+endif()
 
-if(EXISTS ${BOOST_SRC_DIR}/b2.exe)
+set(BOOST_B2_CMD ${BOOST_B2} ${BoostComponentsCmdLine})
+
+if(EXISTS ${BOOST_B2} )
     message("Boost library is already bootstrapped")
 else()
     message("Bootstrapping boost library...")
-    execute_process(COMMAND bootstrap.bat
+    execute_process(COMMAND ${BOOST_BOOTSTRAP_CMD}
                     WORKING_DIRECTORY ${BOOST_SRC_DIR})
 endif()
 
@@ -47,7 +56,7 @@ if(EXISTS ${BOOST_LIB_DIR})
     message("Boost library is already built")
 else()
     message("Building boost library...")
-    execute_process(COMMAND b2.exe ${BoostComponentsCmdLine}
+    execute_process(COMMAND ${BOOST_B2_CMD} ${BoostComponentsCmdLine}
                     WORKING_DIRECTORY ${BOOST_SRC_DIR})
 endif()
 
