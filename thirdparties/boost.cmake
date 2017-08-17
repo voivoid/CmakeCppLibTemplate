@@ -33,8 +33,8 @@ else()
 endif()
 
 
-if(MSVC)
-  set(BOOST_BOOTSTRAP_CMD ${BOOST_SRC_DIR}/bootstrap.bat)
+if(WIN32)
+  set(BOOST_BOOTSTRAP_CMD cmd /C ${BOOST_SRC_DIR}/bootstrap.bat)
   set(BOOST_B2 ${BOOST_SRC_DIR}/b2.exe)
 else()
   set(BOOST_BOOTSTRAP_CMD $ENV{SHELL} ${BOOST_SRC_DIR}/bootstrap.sh)
