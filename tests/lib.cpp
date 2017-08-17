@@ -6,5 +6,5 @@
 
 
 TEST_CASE("TestAddFunc", "[Lib]") {
-    CHECK(add(2, 3) == 5);
+    CHECK(CoolLib::add(2, 3) == 5);
 }

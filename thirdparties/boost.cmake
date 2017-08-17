@@ -1,7 +1,7 @@
 message("Making boost...")
 
 set(BOOST_VERSION "1.64.0")
-set(BoostComponents filesystem system log)
+set(BoostComponents log)
 set(BOOST_MD5 93eecce2abed9d2442c9676914709349)
 
 
@@ -32,32 +32,32 @@ else()
                     WORKING_DIRECTORY ${BOOST_DIR})
 endif()
 
+if(DEFINED BoostComponentsCmdLine)
+    if(WIN32)
+      set(BOOST_BOOTSTRAP_CMD cmd /C ${BOOST_SRC_DIR}/bootstrap.bat)
+      set(BOOST_B2 ${BOOST_SRC_DIR}/b2.exe)
+    else()
+      set(BOOST_BOOTSTRAP_CMD $ENV{SHELL} ${BOOST_SRC_DIR}/bootstrap.sh)
+      set(BOOST_B2 ${BOOST_SRC_DIR}/b2)
+    endif()
 
-if(WIN32)
-  set(BOOST_BOOTSTRAP_CMD cmd /C ${BOOST_SRC_DIR}/bootstrap.bat)
-  set(BOOST_B2 ${BOOST_SRC_DIR}/b2.exe)
-else()
-  set(BOOST_BOOTSTRAP_CMD $ENV{SHELL} ${BOOST_SRC_DIR}/bootstrap.sh)
-  set(BOOST_B2 ${BOOST_SRC_DIR}/b2)
-endif()
+    set(BOOST_B2_CMD ${BOOST_B2} ${BoostComponentsCmdLine})
 
-set(BOOST_B2_CMD ${BOOST_B2} ${BoostComponentsCmdLine})
+    if(EXISTS ${BOOST_B2} )
+        message("Boost library is already bootstrapped")
+    else()
+        message("Bootstrapping boost library...")
+        execute_process(COMMAND ${BOOST_BOOTSTRAP_CMD}
+                        WORKING_DIRECTORY ${BOOST_SRC_DIR})
+    endif()
 
-if(EXISTS ${BOOST_B2} )
-    message("Boost library is already bootstrapped")
-else()
-    message("Bootstrapping boost library...")
-    execute_process(COMMAND ${BOOST_BOOTSTRAP_CMD}
-                    WORKING_DIRECTORY ${BOOST_SRC_DIR})
-endif()
-
-
-if(EXISTS ${BOOST_LIB_DIR})
-    message("Boost library is already built")
-else()
-    message("Building boost library...")
-    execute_process(COMMAND ${BOOST_B2_CMD} ${BoostComponentsCmdLine}
-                    WORKING_DIRECTORY ${BOOST_SRC_DIR})
+    if(EXISTS ${BOOST_LIB_DIR})
+        message("Boost library is already built")
+    else()
+        message("Building boost library...")
+        execute_process(COMMAND ${BOOST_B2_CMD} ${BoostComponentsCmdLine}
+                        WORKING_DIRECTORY ${BOOST_SRC_DIR})
+    endif()
 endif()
 
 message("Building boost done")

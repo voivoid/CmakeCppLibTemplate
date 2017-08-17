@@ -1,3 +1,6 @@
 #pragma once
 
-int add(int x, int y);
+namespace CoolLib
+{
+  int add( int x, int y );
+}

@@ -1,5 +1,7 @@
 #include "lib.h"
-
-int add(const int x, const int y) {
+namespace CoolLib
+{
+  int add( const int x, const int y ) {
     return x + y;
+  }
 }
