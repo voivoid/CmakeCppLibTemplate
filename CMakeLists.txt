@@ -11,11 +11,11 @@ project(CppLib LANGUAGES CXX)
 
 set(BOOST_ROOT ${BOOST_DIR})
 set(Boost_USE_STATIC_LIBS ON)
-find_package(Boost REQUIRED COMPONENTS filesystem)
+find_package(Boost REQUIRED COMPONENTS log)
 
 add_library(CppLib src/lib.cpp inc/lib.h)
 target_include_directories(CppLib PUBLIC inc)
-target_link_libraries(CppLib PUBLIC Boost::boost Boost::filesystem)
+target_link_libraries(CppLib PUBLIC Boost::boost Boost::log)
 
 add_executable(CppLibTests tests/lib.cpp)
 target_link_libraries(CppLibTests CppLib catch fakeit)
