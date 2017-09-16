@@ -1,8 +1,8 @@
 message("Making boost...")
 
-set(BOOST_VERSION "1.64.0")
+set(BOOST_VERSION "1.65.1")
 set(BoostComponents log)
-set(BOOST_MD5 93eecce2abed9d2442c9676914709349)
+set(BOOST_MD5 41d7542ce40e171f3f7982aff008ff0d)
 
 
 
@@ -28,7 +28,7 @@ if(EXISTS ${BOOST_SRC_DIR})
     message("Boost archive is already extracted")
 else()
     message("Extracting boost archive")
-    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xzf ${BOOST_TAR_FILE}
+    execute_process(COMMAND ${CMAKE_COMMAND} -E tar xvf ${BOOST_TAR_FILE}
                     WORKING_DIRECTORY ${BOOST_DIR})
 endif()
 
