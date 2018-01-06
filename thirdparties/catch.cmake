@@ -2,7 +2,7 @@ message("Making catch...")
 
 find_package(Git REQUIRED)
 
-set(CATCH_VER v1.9.7)
+set(CATCH_VER v2.0.1)
 set(CATCH_DIR "${DEPENDENCIES_DIR}/catch")
 
 if(EXISTS ${CATCH_DIR})
@@ -16,7 +16,7 @@ else()
 endif()
 
 add_library(catch INTERFACE)
-target_include_directories(catch INTERFACE ${CATCH_DIR}/include)
+target_include_directories(catch INTERFACE ${CATCH_DIR}/single-include)
 
 
 
