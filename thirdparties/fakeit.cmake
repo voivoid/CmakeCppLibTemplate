@@ -1,22 +1,18 @@
-message("Making fakeit...")
+include(FetchContent)
 
 find_package(Git REQUIRED)
 
 set(FAKEIT_VER 2.0.4)
-set(FAKEIT_DIR "${DEPENDENCIES_DIR}/fakeit")
 
-if(EXISTS ${FAKEIT_DIR})
-    message("Fakeit is already cloned")
-else()
-    file(MAKE_DIRECTORY ${FAKEIT_DIR})
-    execute_process(COMMAND git clone https://github.com/eranpeer/FakeIt ${FAKEIT_DIR}
-                    WORKING_DIRECTORY ${DEPENDENCIES_DIR})
-    execute_process(COMMAND git checkout ${FAKEIT_VER}
-                    WORKING_DIRECTORY ${FAKEIT_DIR})
-endif()
+FetchContent_Declare(
+    fakeit
+    GIT_REPOSITORY https://github.com/eranpeer/FakeIt
+    GIT_TAG ${FAKEIT_VER}
+)
 
-add_library(fakeit INTERFACE)
-target_include_directories(catch INTERFACE ${FAKEIT_DIR}/single_header/catch)
+FetchContent_Populate(fakeit)
+FetchContent_GetProperties(fakeit)
 
 
-message("Making Fakeit done")
+add_library(Fakeit INTERFACE)
+target_include_directories(Fakeit INTERFACE ${fakeit_SOURCE_DIR}/single_header/catch)
