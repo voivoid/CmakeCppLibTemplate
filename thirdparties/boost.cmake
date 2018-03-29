@@ -2,7 +2,7 @@ include(FetchContent)
 
 
 set(BOOST_VERSION "1.66.0")
-set(BOOST_COMPONENTS log)
+set(BOOST_COMPONENTS log test)
 set(Boost_USE_STATIC_LIBS TRUE)
 set(BOOST_SHA256 bd0df411efd9a585e5a2212275f8762079fed8842264954675a4fddc46cfcf60)
 
@@ -63,4 +63,4 @@ endif()
 
 
 set(BOOST_ROOT ${BOOST_SRC_DIR})
-find_package(Boost 1.66.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+find_package(Boost 1.66.0 REQUIRED COMPONENTS log unit_test_framework)

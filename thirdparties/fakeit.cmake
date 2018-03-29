@@ -15,4 +15,4 @@ FetchContent_GetProperties(fakeit)
 
 
 add_library(Fakeit INTERFACE)
-target_include_directories(Fakeit INTERFACE ${fakeit_SOURCE_DIR}/single_header/catch)
+target_include_directories(Fakeit INTERFACE ${fakeit_SOURCE_DIR}/single_header/boost)

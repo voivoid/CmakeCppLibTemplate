@@ -4,7 +4,6 @@ project(CppApp LANGUAGES CXX)
 set(FETCHCONTENT_QUIET OFF)
 
 include(thirdparties/boost.cmake)
-include(thirdparties/catch.cmake)
 include(thirdparties/fakeit.cmake)
 
 
@@ -13,4 +12,4 @@ target_include_directories(CppLib PUBLIC inc)
 target_link_libraries(CppLib PUBLIC Boost::boost Boost::log)
 
 add_executable(CppLibTests tests/lib.cpp)
-target_link_libraries(CppLibTests CppLib Catch Fakeit)
+target_link_libraries(CppLibTests CppLib Boost::unit_test_framework Fakeit)

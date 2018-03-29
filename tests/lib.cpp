@@ -1,10 +1,10 @@
-#define CATCH_CONFIG_MAIN
-#include <catch.hpp>
+#define BOOST_TEST_MODULE test module name
+#include <boost/test/included/unit_test.hpp>
 #include <fakeit.hpp>
 
 #include "lib.h"
 
-
-TEST_CASE("TestAddFunc", "[Lib]") {
-    CHECK(CoolLib::add(2, 3) == 5);
+BOOST_AUTO_TEST_CASE(CoolTest)
+{
+    BOOST_TEST(CoolLib::add( 2, 3 ) == 5);
 }
