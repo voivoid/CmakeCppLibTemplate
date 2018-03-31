@@ -15,6 +15,6 @@ FetchContent_Populate(fakeit)
 FetchContent_GetProperties(fakeit)
 
 
-add_library(Fakeit INTERFACE)
+add_library(Fakeit INTERFACE IMPORTED)
 target_include_directories(Fakeit INTERFACE ${fakeit_SOURCE_DIR}/single_header/boost)
 message("Building fakeit done")

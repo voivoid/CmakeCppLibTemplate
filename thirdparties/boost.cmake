@@ -27,6 +27,8 @@ foreach(COMPONENT ${BOOST_COMPONENTS})
   list(APPEND BOOST_COMPONENTS_CMD_LINE "--with-${COMPONENT}")
 endforeach()
 
+string(REPLACE test unit_test_framework BOOST_COMPONENTS "${BOOST_COMPONENTS}")
+
 
 if(DEFINED BOOST_COMPONENTS_CMD_LINE)
 
@@ -39,21 +41,32 @@ if(DEFINED BOOST_COMPONENTS_CMD_LINE)
     endif()
 
     if(EXISTS ${BOOST_B2} )
-        message("Boost library is already bootstrapped")
+        message("Boost is already bootstrapped")
     else()
-        message("Bootstrapping boost library...")
+        message("Bootstrapping boost...")
         execute_process(COMMAND ${BOOST_BOOTSTRAP_CMD}
                         WORKING_DIRECTORY ${BOOST_SRC_DIR})
     endif()
 
 
+    file(
+      GLOB BOOST_BUILT_LIBS
+      RELATIVE ${BOOST_LIB_DIR}
+      ${BOOST_LIB_DIR}/*.a)
 
-    set(BOOST_B2_CMD ${BOOST_B2} ${BOOST_COMPONENTS_CMD_LINE} -j 8)
+    set(ALL_LIBS_BUILT TRUE)
+    foreach(COMPONENT ${BOOST_COMPONENTS})
+      string(FIND "${BOOST_BUILT_LIBS}" ${COMPONENT} COMPONENT_FOUND)
+      if(COMPONENT_FOUND EQUAL -1)
+        set(ALL_LIBS_BUILT FALSE)
+      endif()
+    endforeach()
 
-    if(EXISTS ${BOOST_LIB_DIR})
-        message("Boost library is already built")
+    if(ALL_LIBS_BUILT)
+        message("Boost libraries are already built")
     else()
-        message("Building boost library...")
+        message("Building boost libraries...")
+        set(BOOST_B2_CMD ${BOOST_B2} ${BOOST_COMPONENTS_CMD_LINE} -j 8)
         execute_process(COMMAND ${BOOST_B2_CMD}
                         WORKING_DIRECTORY ${BOOST_SRC_DIR})
     endif()
@@ -63,8 +76,6 @@ endif()
 
 
 set(BOOST_ROOT ${BOOST_SRC_DIR})
-
-string(REPLACE test unit_test_framework BOOST_COMPONENTS "${BOOST_COMPONENTS}")
 find_package(Boost 1.66.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
 
 message("Building boost done")
