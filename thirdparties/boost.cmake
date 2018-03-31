@@ -15,7 +15,7 @@ FetchContent_Declare(
   URL_HASH SHA256=${BOOST_SHA256}
 )
 
-
+message("Building boost...")
 FetchContent_Populate(boost)
 FetchContent_GetProperties(boost)
 
@@ -63,4 +63,8 @@ endif()
 
 
 set(BOOST_ROOT ${BOOST_SRC_DIR})
-find_package(Boost 1.66.0 REQUIRED COMPONENTS log unit_test_framework)
+
+string(REPLACE test unit_test_framework BOOST_COMPONENTS "${BOOST_COMPONENTS}")
+find_package(Boost 1.66.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+
+message("Building boost done")
