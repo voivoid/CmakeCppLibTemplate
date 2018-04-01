@@ -2,9 +2,16 @@
 #include <boost/test/included/unit_test.hpp>
 #include <fakeit.hpp>
 
-#include "lib.h"
+#include "CoolLib/lib.h"
 
-BOOST_AUTO_TEST_CASE(CoolTest)
-{
-    BOOST_TEST(CoolLib::add( 2, 3 ) == 5);
+BOOST_AUTO_TEST_CASE(CoolTest) {
+  CoolLib::Obj obj;
+  BOOST_TEST(obj.add(2, 3) == 5);
+}
+
+BOOST_AUTO_TEST_CASE(CoolMockTest) {
+  fakeit::Mock<CoolLib::Obj> mock;
+  fakeit::When(Method(mock, add)).Return(42);
+
+  BOOST_TEST(mock.get().add(2, 3) == 42);
 }

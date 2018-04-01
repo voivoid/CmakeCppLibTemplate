@@ -1,81 +1,81 @@
 include(FetchContent)
 
 
-set(BOOST_VERSION "1.66.0")
-set(BOOST_COMPONENTS log test)
+set(BoostVersion "1.66.0")
+set(BoostLibs log test)
+set(BoostSHA256 bd0df411efd9a585e5a2212275f8762079fed8842264954675a4fddc46cfcf60)
 set(Boost_USE_STATIC_LIBS TRUE)
-set(BOOST_SHA256 bd0df411efd9a585e5a2212275f8762079fed8842264954675a4fddc46cfcf60)
 
 
 
-string(REPLACE . _ BOOST_VERSION_UNDERSCORED ${BOOST_VERSION})
+string(REPLACE . _ BoostVersionUnderscored ${BoostVersion})
 FetchContent_Declare(
   boost
-  URL "https://dl.bintray.com/boostorg/release/${BOOST_VERSION}/source/boost_${BOOST_VERSION_UNDERSCORED}.tar.gz"
-  URL_HASH SHA256=${BOOST_SHA256}
+  URL "https://dl.bintray.com/boostorg/release/${BoostVersion}/source/boost_${BoostVersionUnderscored}.tar.gz"
+  URL_HASH SHA256=${BoostSHA256}
 )
 
-message("Building boost...")
+message("Building Boost...")
 FetchContent_Populate(boost)
 FetchContent_GetProperties(boost)
 
 
-set(BOOST_SRC_DIR ${boost_SOURCE_DIR})
-set(BOOST_LIB_DIR ${BOOST_SRC_DIR}/stage/lib)
+set(BoostSrcDir ${boost_SOURCE_DIR})
+set(BoostLibDir ${BoostSrcDir}/stage/lib)
 
-foreach(COMPONENT ${BOOST_COMPONENTS})
-  list(APPEND BOOST_COMPONENTS_CMD_LINE "--with-${COMPONENT}")
+foreach(BoostLib ${BoostLibs})
+  list(APPEND BoostLibsCmdLine "--with-${BoostLib}")
 endforeach()
 
-string(REPLACE test unit_test_framework BOOST_COMPONENTS "${BOOST_COMPONENTS}")
+string(REPLACE test unit_test_framework BoostComponents "${BoostLibs}")
 
 
-if(DEFINED BOOST_COMPONENTS_CMD_LINE)
+if(DEFINED BoostLibsCmdLine)
 
     if(WIN32)
-      set(BOOST_BOOTSTRAP_CMD cmd /C ${BOOST_SRC_DIR}/bootstrap.bat)
-      set(BOOST_B2 ${BOOST_SRC_DIR}/b2.exe)
+      set(BoostBootstrapCmd cmd /C ${BoostSrcDir}/bootstrap.bat)
+      set(BoostB2 ${BoostSrcDir}/b2.exe)
     else()
-      set(BOOST_BOOTSTRAP_CMD $ENV{SHELL} ${BOOST_SRC_DIR}/bootstrap.sh)
-      set(BOOST_B2 ${BOOST_SRC_DIR}/b2)
+      set(BoostBootstrapCmd $ENV{SHELL} ${BoostSrcDir}/bootstrap.sh)
+      set(BoostB2 ${BoostSrcDir}/b2)
     endif()
 
-    if(EXISTS ${BOOST_B2} )
+    if(EXISTS ${BoostB2} )
         message("Boost is already bootstrapped")
     else()
         message("Bootstrapping boost...")
-        execute_process(COMMAND ${BOOST_BOOTSTRAP_CMD}
-                        WORKING_DIRECTORY ${BOOST_SRC_DIR})
+        execute_process(COMMAND ${BoostBootstrapCmd}
+                        WORKING_DIRECTORY ${BoostSrcDir})
     endif()
 
 
     file(
-      GLOB BOOST_BUILT_LIBS
-      RELATIVE ${BOOST_LIB_DIR}
-      ${BOOST_LIB_DIR}/*.a)
+      GLOB BoostBuiltLibs
+      RELATIVE ${BoostLibDir}
+      ${BoostLibDir}/*)
 
-    set(ALL_LIBS_BUILT TRUE)
-    foreach(COMPONENT ${BOOST_COMPONENTS})
-      string(FIND "${BOOST_BUILT_LIBS}" ${COMPONENT} COMPONENT_FOUND)
-      if(COMPONENT_FOUND EQUAL -1)
-        set(ALL_LIBS_BUILT FALSE)
+    set(AllLibsBuilt TRUE)
+    foreach(Component ${BoostComponents})
+      string(FIND "${BoostBuiltLibs}" ${Component} ComponentFound)
+      if(ComponentFound EQUAL -1)
+        set(AllLibsBuilt FALSE)
       endif()
     endforeach()
 
-    if(ALL_LIBS_BUILT)
+    if(AllLibsBuilt)
         message("Boost libraries are already built")
     else()
         message("Building boost libraries...")
-        set(BOOST_B2_CMD ${BOOST_B2} ${BOOST_COMPONENTS_CMD_LINE} -j 8)
-        execute_process(COMMAND ${BOOST_B2_CMD}
-                        WORKING_DIRECTORY ${BOOST_SRC_DIR})
+        set(BoostB2Cmd ${BoostB2} ${BoostComponentsCmdLine} -j 8)
+        execute_process(COMMAND ${BoostB2Cmd}
+                        WORKING_DIRECTORY ${BoostSrcDir})
     endif()
 
 endif()
 
 
 
-set(BOOST_ROOT ${BOOST_SRC_DIR})
-find_package(Boost 1.66.0 REQUIRED COMPONENTS ${BOOST_COMPONENTS})
+set(BOOST_ROOT ${BoostSrcDir})
+find_package(Boost 1.66.0 REQUIRED COMPONENTS ${BoostComponents})
 
 message("Building boost done")
