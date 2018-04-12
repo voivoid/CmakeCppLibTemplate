@@ -66,7 +66,7 @@ if(DEFINED BoostLibsCmdLine)
         message("Boost libraries are already built")
     else()
         message("Building boost libraries...")
-        set(BoostB2Cmd ${BoostB2} ${BoostComponentsCmdLine} -j 8)
+        set(BoostB2Cmd ${BoostB2} ${BoostLibsCmdLine} -j 8)
         execute_process(COMMAND ${BoostB2Cmd}
                         WORKING_DIRECTORY ${BoostSrcDir})
     endif()
