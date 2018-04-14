@@ -76,6 +76,6 @@ endif()
 
 
 set(BOOST_ROOT ${BoostSrcDir})
-find_package(Boost 1.66.0 REQUIRED COMPONENTS ${BoostComponents})
+find_package(Boost ${BoostVersion} REQUIRED COMPONENTS ${BoostComponents})
 
 message("Building boost done")
