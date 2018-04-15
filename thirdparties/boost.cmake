@@ -1,9 +1,9 @@
 include(FetchContent)
 
 
-set(BoostVersion "1.66.0")
+set(BoostVersion "1.67.0")
 set(BoostLibs log test)
-set(BoostSHA256 bd0df411efd9a585e5a2212275f8762079fed8842264954675a4fddc46cfcf60)
+set(BoostSHA256 8aa4e330c870ef50a896634c931adf468b21f8a69b77007e45c444151229f665)
 set(Boost_USE_STATIC_LIBS TRUE)
 
 
