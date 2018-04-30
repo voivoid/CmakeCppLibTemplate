@@ -5,6 +5,8 @@ project(CppApp LANGUAGES CXX)
 include(thirdparties/boost.cmake)
 include(thirdparties/fakeit.cmake)
 
+set(CMAKE_CXX_STANDARD 11)
+
 
 add_library(CppLib src/lib.cpp inc/CoolLib/lib.h)
 target_include_directories(CppLib PUBLIC inc)
