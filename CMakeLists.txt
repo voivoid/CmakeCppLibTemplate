@@ -29,3 +29,9 @@ if(ClangFormat)
     COMMAND clang-format  -style=Chromium -i ${CppLibSrcs} ${CppAppSrcs} ${CppLibTestsSrcs}
     WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR})
 endif()
+
+
+enable_testing()
+
+add_test(NAME CppLibTests
+  COMMAND CppLibTests)
