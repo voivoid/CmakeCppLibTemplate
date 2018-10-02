@@ -2,7 +2,7 @@ include(FetchContent)
 
 find_package(Git REQUIRED)
 
-set(TrompeloeilVer v31)
+set(TrompeloeilVer v32)
 
 FetchContent_Declare(
     trompeloeil
